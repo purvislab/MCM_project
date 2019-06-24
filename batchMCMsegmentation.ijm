@@ -6,6 +6,13 @@
 // initial cleaning
 run("Close All");
 
+if (isOpen("ROI Manager")) {
+	selectWindow("ROI Manager");
+	run("Close");
+}
+
+setBatchMode(true);
+
 // set parameters
 channel_thr=1; // 1-indexed
 channel_DAPI=3; 
@@ -19,9 +26,11 @@ var upper_thr=0;
 myDir=getDirectory("Choose directory to analyze");
 
 // create subdirectories
+if(!File.isDirectory(myDir+"results")){
+	File.makeDirectory(myDir+"results");
+}
 if(!File.isDirectory(myDir+"segmentation")){
 	File.makeDirectory(myDir+"segmentation");
-	File.makeDirectory(myDir+"results");
 }
 
 ////////////////////////////////////////////////
@@ -74,7 +83,7 @@ for(i=0;i<lengthOf(myList);i++){
 	close();
 
 	////////////////////////////////////////////////
-	// divide signal into eu and het chromatin
+	// find euchromatin
 	selectWindow("full_stack");
 	run("Duplicate...", "duplicate channels="+d2s(channel_signal,0));
 	rename("signal");
@@ -83,29 +92,95 @@ for(i=0;i<lengthOf(myList);i++){
 	imageCalculator("XOR create stack", "nucleus","hetChrom");
 	rename("euChrom");
 
-	// find nuclear signal
-	selectWindow("nucleus");
-	run("Divide...", "value=255 stack");
-	imageCalculator("Multiply create stack", "signal","nucleus");
-	rename("signal_nucleus");
-
-	// find hetChrom signal
-	selectWindow("hetChrom");
-	run("Divide...", "value=255 stack");
-	imageCalculator("Multiply create stack", "signal","hetChrom");
-	rename("signal_hetChrom");
-
-	// find euChrom signal
-	selectWindow("euChrom");
-	run("Divide...", "value=255 stack");
-	imageCalculator("Multiply create stack", "signal","euChrom");
-	rename("signal_euChrom");
-
 	///////////////////////////////////////////////////
 	// make calculations
+	selectWindow("nucleus");
+	setAutoThreshold("Li dark no-reset stack");
+
+	run("Set Measurements...", "area mean standard modal stack redirect=None decimal=3");
+
+	getDimensions(width, height, channels, slices, frames);
+
+
+	/////////////////////////////////////////
+	//set nucleus as selections in ROI
+	for(mySlice=1;mySlice<=slices;mySlice++){
+
+		setSlice(mySlice);
+		run("Create Selection");
+		if(is("area")){
+			roiManager("Add");
+		}
+	}
+
+	//measure full nucleus signal
+	selectWindow("signal");
+
+	roiManager("Associate", "true");
+	run("Select All");
+	roiManager("Measure");
+
+	saveAs("Results", myDir+"results//"+replace(myFile,".ims","_nucleusSignal.csv"));
+	run("Clear Results");
+
+	roiManager("Deselect");
+	roiManager("Delete");
+
+	/////////////////////////////////////////
+	//set hetChrom as selections in ROI
+	selectWindow("hetChrom");
+	setAutoThreshold("Li dark no-reset stack");
+	for(mySlice=1;mySlice<=slices;mySlice++){
+
+		setSlice(mySlice);
+		run("Create Selection");
+		if(is("area")){
+			roiManager("Add");
+		}
+	}
+
+	//measure hetChrom signal
+	selectWindow("signal");
+
+	roiManager("Associate", "true");
+	run("Select All");
+	roiManager("Measure");
+
+	saveAs("Results", myDir+"results//"+replace(myFile,".ims","_hetChromSignal.csv"));
+	run("Clear Results");
+
+	roiManager("Deselect");
+	roiManager("Delete");
+
+
+	/////////////////////////////////////////
+	//set euChrom as selections in ROI
+	selectWindow("euChrom");
+	setAutoThreshold("Li dark no-reset stack");
+	for(mySlice=1;mySlice<=slices;mySlice++){
+
+		setSlice(mySlice);
+		run("Create Selection");
+		if(is("area")){
+			roiManager("Add");
+		}
+	}
+
+	//measure hetChrom signal
+	selectWindow("signal");
+
+	roiManager("Associate", "true");
+	run("Select All");
+	roiManager("Measure");
+
+	saveAs("Results", myDir+"results//"+replace(myFile,".ims","_euChromSignal.csv"));
+	run("Clear Results");
+
+	roiManager("Deselect");
+	roiManager("Delete");
+	
 
 	// clean up for the next image
-	k
 	run("Close All");
 }
 

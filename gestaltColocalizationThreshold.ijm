@@ -129,6 +129,15 @@ infoFileHandle = File.open(myDir+timeString+"_manual_threshold.txt");
 print(infoFileHandle, "Date: \r\n");
 print(infoFileHandle, year+"/"+d2s(month+1,0)+"/"+dayOfMonth);
 
+
+print(infoFileHandle, "\r\nImages considered: \r\n");
+
+for (i=1; i<=nImages(); i++) {
+
+	selectImage(i);
+    print(infoFileHandle,getInfo("image.filename")+"\r\n");   
+} 
+
 print(infoFileHandle, "\r\nMin threshold: \r\n");
 print(infoFileHandle, d2s(lower,0));
 print(infoFileHandle, "Max threshold: \r\n");

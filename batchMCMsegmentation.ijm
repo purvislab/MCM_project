@@ -1,0 +1,31 @@
+// macro to automatically calculate presence of MCM signal in heterochromatin
+//
+//
+// 06/23/2019 Chapel Hill, Kate Kedziora
+
+// initial cleaning
+run("Close All");
+
+// set parameters
+channel_DAPI=3; // 1-indexed
+
+////////////////////////////////////////////////
+// ask for manual segmentation threshold
+
+////////////////////////////////////////////////
+// segmentation of the heterochromatin channel
+
+
+////////////////////////////////////////////////
+// segmentation of the DAPI signal
+
+
+////////////////////////////////////////////////
+// calculate pixels
+
+
+////////////////////////////////////////////////
+// save segmentation masks
+
+
+

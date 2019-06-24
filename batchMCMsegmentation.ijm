@@ -11,6 +11,8 @@ if (isOpen("ROI Manager")) {
 	run("Close");
 }
 
+run("Input/Output...", "jpeg=85 gif=-1 file=.csv use_file save_column");
+
 setBatchMode(true);
 
 // set parameters
@@ -94,6 +96,10 @@ for(i=0;i<lengthOf(myList);i++){
 
 	///////////////////////////////////////////////////
 	// make calculations
+
+	//remove scale
+	run("Set Scale...", "distance=0 global");
+	
 	selectWindow("nucleus");
 	setAutoThreshold("Li dark no-reset stack");
 

@@ -50,6 +50,9 @@ for(i=0;i<lengthOf(myList);i++){
 	run("Bio-Formats Importer", "open=["+myDir+"\\data\\"+myFile+"] color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT series_1");
 	rename("full_stack");
 
+	//remove scale
+	run("Set Scale...", "distance=0 global");
+
 	////////////////////////////////////////////////
 	// segmentation of the DAPI signal
 	run("Duplicate...", "duplicate channels="+d2s(channel_DAPI,0));
@@ -96,9 +99,6 @@ for(i=0;i<lengthOf(myList);i++){
 
 	///////////////////////////////////////////////////
 	// make calculations
-
-	//remove scale
-	run("Set Scale...", "distance=0 global");
 	
 	selectWindow("nucleus");
 	setAutoThreshold("Li dark no-reset stack");

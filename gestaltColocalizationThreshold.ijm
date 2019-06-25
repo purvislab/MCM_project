@@ -18,7 +18,7 @@ thr_channel=1;
 // choose a directory for analysis
 myDir=getDirectory("Choose directory to analyze");
 
-myList=getFileList(myDir);
+myList=getFileList(myDir+"data");
 
 //remember max of all images
 myMax=0
@@ -33,7 +33,7 @@ for(i=0;i<lengthOf(myList);i++){
 		// print a name of the file
 		print(myFile);
 
-		run("Bio-Formats Importer", "open=["+myDir+"\\"+myFile+"] color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT series_1");
+		run("Bio-Formats Importer", "open=["+myDir+"data\\"+myFile+"] color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT series_1");
 
 		// collect info about the stack
 		Stack.getDimensions(width, height, channels, slices, frames);
@@ -107,9 +107,13 @@ while(showAgain==true){
 	for (i=1; i<=nImages(); i++) {
 	
 		selectImage(i);
+		setMinAndMax(min, max);
 		setThreshold(lower, upper);
 	}
 }
+
+//final cleaning
+run("Close All");
 
 ////////////////////////////////////////////////////////////////////////////////
 // save results

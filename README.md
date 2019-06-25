@@ -17,3 +17,12 @@ Pipeline:
   * The macro should guide the user to choose the right threshold - it's possible to change slices during the process and recalculate threshold for all the images unlimited number of times.
   * When the threshold is selected please mark 'Done' checkpoint.
 * run __batchMCMsegmentation.ijm__ to segment nuclei and heterochromatin
+  * this step doesn't require user interaction and executes in batch mode (no display)
+  * results are stored:
+    * in 'results' directory
+    * without calibration (pixel units)
+    * separately for nucleus, heterochromatin and euchromatin
+    * slice/line (good for internal quality control)
+  * segmentation masks are stored separately ('segmentation' directory)
+* run __MCM_inHetChrom_plotter.ipynb__ to plot the data
+  * it requires python (Anaconda)

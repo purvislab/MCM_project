@@ -56,11 +56,10 @@ run("Analyze Particles...", "size=500-Infinity show=Masks add in_situ");
 
 // create ring rois
 roiNum=roiManager("count");
-myRing="10";	//toDel
 for (j=0; j<roiNum; j++) {
 
 	roiManager("Select", j);
-	run("Make Band...", "band=10");
+	run("Make Band...", "band="+d2s(myRing,0));
 	roiManager("Add");
 }
 
@@ -133,6 +132,18 @@ selectWindow("dhbImage");
 run("From ROI Manager");
 run("Flatten");
 saveAs("Tiff",replace(pcnaFile,"c1.tif","_regions.tif"));
+close();
+
+// final display
+selectWindow("pcnaImage");
+close();
+
+run("Bio-Formats Importer", "open=["+pcnaFile+"] color_mode=Default rois_import=[ROI manager] specify_range view=Hyperstack stack_order=XYCZT t_begin="+myFrame+" t_end="+myFrame+" t_step=1");
+rename("pcnaImageOrg");
+run("Enhance Contrast", "saturated=0.35");
+run("Fire");
+roiManager("Show All");
+run("Synchronize Windows");
 
 run("Tile");
 selectWindow("Results");

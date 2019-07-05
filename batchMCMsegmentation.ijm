@@ -50,6 +50,8 @@ for(i=0;i<lengthOf(myList);i++){
 	run("Bio-Formats Importer", "open=["+myDir+"\\data\\"+myFile+"] color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT series_1");
 	rename("full_stack");
 
+	myEnding=substring(myFile,lastIndexOf(myFile,"."));
+
 	//remove scale
 	run("Set Scale...", "distance=0 global");
 
@@ -65,7 +67,7 @@ for(i=0;i<lengthOf(myList);i++){
 	run("Analyze Particles...", "size=200-Infinity pixel show=Masks in_situ stack");
 	run("Fill Holes", "stack");
 
-	saveAs("Tiff", myDir+"//segmentation//"+replace(myFile,".ims","_nucleus.tif"));
+	saveAs("Tiff", myDir+"//segmentation//"+replace(myFile,myEnding,"_nucleus.tif"));
 	rename("nucleus");
 
 	////////////////////////////////////////////////
@@ -81,7 +83,7 @@ for(i=0;i<lengthOf(myList);i++){
 	// remove structures outside of the nucleus
 	imageCalculator("AND create stack", "nucleus","hetChrom_temp");
 	
-	saveAs("Tiff", myDir+"//segmentation//"+replace(myFile,".ims","_hetChrom.tif"));
+	saveAs("Tiff", myDir+"//segmentation//"+replace(myFile,myEnding,"_hetChrom.tif"));
 	rename("hetChrom");
 
 	selectWindow("hetChrom_temp");
@@ -126,7 +128,7 @@ for(i=0;i<lengthOf(myList);i++){
 	run("Select All");
 	roiManager("Measure");
 
-	saveAs("Results", myDir+"results//"+replace(myFile,".ims","_nucleusSignal.csv"));
+	saveAs("Results", myDir+"results//"+replace(myFile,myEnding,"_nucleusSignal.csv"));
 	run("Clear Results");
 
 	roiManager("Deselect");
@@ -152,7 +154,7 @@ for(i=0;i<lengthOf(myList);i++){
 	run("Select All");
 	roiManager("Measure");
 
-	saveAs("Results", myDir+"results//"+replace(myFile,".ims","_hetChromSignal.csv"));
+	saveAs("Results", myDir+"results//"+replace(myFile,myEnding,"_hetChromSignal.csv"));
 	run("Clear Results");
 
 	roiManager("Deselect");
@@ -179,7 +181,7 @@ for(i=0;i<lengthOf(myList);i++){
 	run("Select All");
 	roiManager("Measure");
 
-	saveAs("Results", myDir+"results//"+replace(myFile,".ims","_euChromSignal.csv"));
+	saveAs("Results", myDir+"results//"+replace(myFile,myEnding,"_euChromSignal.csv"));
 	run("Clear Results");
 
 	roiManager("Deselect");

@@ -28,7 +28,7 @@ for(i=0;i<lengthOf(myList);i++){
 
 	myFile=myList[i];
 
-	if(endsWith(myFile,"ims")){
+	if(endsWith(myFile,"ims") || endsWith(myFile,"czi") || endsWith(myFile,"tif") || endsWith(myFile,"tiff")){
 
 		// print a name of the file
 		print(myFile);
@@ -60,7 +60,8 @@ for(i=0;i<lengthOf(myList);i++){
 		
 		Stack.setSlice(brightestSlice);
 		print(brightestSlice);
-		
+
+		run("Grays");
 		setMinAndMax(0, 1000);
 		
 	}
@@ -112,9 +113,6 @@ while(showAgain==true){
 	}
 }
 
-//final cleaning
-run("Close All");
-
 ////////////////////////////////////////////////////////////////////////////////
 // save results
 
@@ -148,3 +146,7 @@ print(infoFileHandle, "Max threshold: \r\n");
 print(infoFileHandle, d2s(upper,0));
 
 File.close(infoFileHandle);
+
+////////////////////////////////////////////////////////////////////////////////
+//final cleaning
+run("Close All");

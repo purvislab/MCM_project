@@ -1,5 +1,13 @@
 # MCM_project
 
+2019.11.05
+
+Pipeline changes:
+
+* Otsu thresholding of the full nucleus (replaced Li algorithm)
+* segmentation by volume - 191030_segmentation_by_hetChrom_percentile_and_scramble.ipynb
+* current visualisation notebook - 191101_data_visualization_cleanSet.ipynb
+
 
 2019.06.24
 

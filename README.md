@@ -2,7 +2,7 @@
 
 2019.11.05
 
-Pipeline changed:
+Pipeline changes:
 
 * Otsu thresholding of the full nucleus (replaced Li algorithm)
 * segmentation by volume - 191030_segmentation_by_hetChrom_percentile_and_scramble.ipynb

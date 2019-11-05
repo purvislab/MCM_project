@@ -60,11 +60,11 @@ for(i=0;i<lengthOf(myList);i++){
 	run("Duplicate...", "duplicate channels="+d2s(channel_DAPI,0));
 	
 	run("Median...", "radius=4 stack");
-	setAutoThreshold("Li dark no-reset stack");
+	setAutoThreshold("Otsu dark no-reset stack");
 	run("Convert to Mask", "method=Li background=Dark black");
 
 	run("Options...", "iterations=10 count=4 black edm=8-bit do=Open stack");
-	run("Analyze Particles...", "size=200-Infinity pixel show=Masks in_situ stack");
+	run("Analyze Particles...", "size=1000-Infinity pixel show=Masks in_situ stack");
 	run("Fill Holes", "stack");
 
 	saveAs("Tiff", myDir+"//segmentation//"+replace(myFile,myEnding,"_nucleus.tif"));
@@ -105,7 +105,7 @@ for(i=0;i<lengthOf(myList);i++){
 	selectWindow("nucleus");
 	setAutoThreshold("Li dark no-reset stack");
 
-	run("Set Measurements...", "area mean standard modal stack redirect=None decimal=3");
+	run("Set Measurements...", "area mean standard modal stack limit redirect=None decimal=3");
 
 	getDimensions(width, height, channels, slices, frames);
 

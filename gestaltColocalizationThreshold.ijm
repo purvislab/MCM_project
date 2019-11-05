@@ -28,7 +28,7 @@ for(i=0;i<lengthOf(myList);i++){
 
 	myFile=myList[i];
 
-	if(endsWith(myFile,"ims") || endsWith(myFile,"czi") || endsWith(myFile,"tif") || endsWith(myFile,"tiff")){
+	if(endsWith(myFile,"ims") || endsWith(myFile,"czi") || endsWith(myFile,"tif") || endsWith(myFile,"tiff") || endsWith(myFile,"lsm")){
 
 		// print a name of the file
 		print(myFile);

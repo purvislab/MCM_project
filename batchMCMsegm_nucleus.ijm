@@ -38,7 +38,7 @@ if(!File.isDirectory(myDir+"segmentation_gestalt")){
 myList=getFileList(myDir+"data");
 
 
-for(i=0;i<lengthOf(ranges);i++){
+for(i=0;i<lengthOf(myList);i++){
 	
 	
 	myFile=myList[i];

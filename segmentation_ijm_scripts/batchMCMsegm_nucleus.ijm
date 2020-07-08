@@ -28,21 +28,18 @@ myDir=getDirectory("Choose directory to analyze");
 if(!File.isDirectory(myDir+"segmentation_nucleus_Otsu")){
 	File.makeDirectory(myDir+"segmentation_nucleus_Otsu");
 }
-if(!File.isDirectory(myDir+"segmentation_gestalt")){
-	File.makeDirectory(myDir+"segmentation_gestalt");
-}
 
 ////////////////////////////////////////////////
 
 // list files
-myList=getFileList(myDir+"data");
+myList=getFileList(myDir+"data_tiff");
 
 
 for(i=0;i<lengthOf(myList);i++){
 	
 	
 	myFile=myList[i];
-	run("Bio-Formats Importer", "open=["+myDir+"\\data\\"+myFile+"] color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT series_1");
+	run("Bio-Formats Importer", "open=["+myDir+"\\data_tiff\\"+myFile+"] color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT series_1");
 	rename("full_stack");
 	
 	myEnding=substring(myFile,lastIndexOf(myFile,"."));
